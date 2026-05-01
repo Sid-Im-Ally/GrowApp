@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+/* ── Grow Design System tokens ── */
+:root {
+  --paper:     #f4f0e8;
+  --paper-2:   #ece6d8;
+  --paper-3:   #efe9da;
+  --ink:       #1c1a17;
+  --ink-2:     #2a2620;
+  --ink-soft:  #3a342c;
+  --muted:     #7a7468;
+  --line:      #cdc5b3;
+  --line-soft: #dcd4c2;
+  --sun:       #c8a96a;
+  --sun-soft:  #e7d8a8;
+  --sage:      #6b7a5a;
+  --clay:      #9a6e4e;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--paper-2);
+  color: var(--ink);
+}
+
+/* Cormorant Garamond — display / book titles */
+.font-display {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* JetBrains Mono — meta labels */
+.font-mono-grow {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Thin scrollbars for sidebar */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.08) transparent;
+}
+.scrollbar-thin::-webkit-scrollbar { width: 3px; }
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.08);
+  border-radius: 4px;
+}
