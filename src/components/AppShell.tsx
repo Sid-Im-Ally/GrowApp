@@ -106,11 +106,19 @@ export function AppShell({
   }
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden" style={{ background: 'var(--paper-2)' }}>
+    <div
+      className="h-dvh flex flex-col overflow-hidden"
+      style={{
+        background: 'var(--paper-2)',
+        paddingTop: 'env(safe-area-inset-top)',
+        paddingLeft: 'env(safe-area-inset-left)',
+        paddingRight: 'env(safe-area-inset-right)',
+      }}
+    >
 
       {/* ── Header ── */}
       <header
-        className="flex items-center gap-4 px-5 shrink-0 z-10"
+        className="flex items-center gap-2 sm:gap-4 px-3 sm:px-5 shrink-0 z-10"
         style={{
           background: 'var(--paper)',
           borderBottom: '1px solid var(--line)',
@@ -131,12 +139,12 @@ export function AppShell({
         </button>
 
         {/* Logo — mark + wordmark */}
-        <div className="flex items-center gap-3 flex-1">
-          <GrowMark size={36} />
-          <div style={{ width: 1, height: 28, background: 'var(--line)', opacity: 0.6 }} />
+        <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+          <GrowMark size={32} />
+          <div className="hidden sm:block" style={{ width: 1, height: 28, background: 'var(--line)', opacity: 0.6 }} />
           <span
             className="font-display"
-            style={{ fontSize: 22, fontWeight: 300, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--ink)', paddingLeft: '0.1em' }}
+            style={{ fontSize: 20, fontWeight: 300, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink)', paddingLeft: '0.1em' }}
           >
             Grow
           </span>
@@ -316,13 +324,16 @@ export function AppShell({
         </aside>
 
         {/* ── Main ── */}
-        <main className="flex-1 overflow-y-auto">
-          <div className="max-w-5xl mx-auto px-5 py-8 md:px-8">
+        <main
+          className="flex-1 overflow-y-auto"
+          style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+        >
+          <div className="max-w-5xl mx-auto px-4 py-6 sm:px-5 sm:py-8 md:px-8">
             {/* Section heading */}
-            <div className="mb-7 flex items-baseline gap-3">
+            <div className="mb-5 sm:mb-7 flex items-baseline gap-3">
               <h1
                 className="font-display italic"
-                style={{ fontSize: 26, fontWeight: 400, color: 'var(--ink)', lineHeight: 1 }}
+                style={{ fontSize: 24, fontWeight: 400, color: 'var(--ink)', lineHeight: 1 }}
               >
                 Currently Reading
               </h1>
@@ -345,7 +356,7 @@ export function AppShell({
                 icon="○"
                 message="Nothing open yet."
                 subtext={libraryBooks.length > 0
-                  ? 'Hover a book in your library and press Read →'
+                  ? 'Open your library and tap Read → on a book.'
                   : 'Search for a book in the sidebar to begin.'}
               />
             ) : (

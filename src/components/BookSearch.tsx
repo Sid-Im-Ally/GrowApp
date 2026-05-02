@@ -24,7 +24,7 @@ export function BookSearch({ onBookSelect, variant }: Props) {
     setError('');
     searchBooks(debouncedQuery)
       .then((results) => { setSuggestions(results); setOpen(true); })
-      .catch(() => { setError('Could not reach Google Books.'); setSuggestions([]); })
+      .catch(() => { setError('Could not reach the book search service.'); setSuggestions([]); setOpen(true); })
       .finally(() => setLoading(false));
   }, [debouncedQuery]);
 

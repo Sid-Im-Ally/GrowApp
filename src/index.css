@@ -28,6 +28,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: var(--paper-2);
   color: var(--ink);
+  overscroll-behavior-y: none;
+}
+
+/* Prevent iOS auto-zoom on input focus (font-size < 16px triggers it) */
+input, select, textarea { font-size: 16px; }
+@media (min-width: 640px) {
+  input, select, textarea { font-size: inherit; }
 }
 
 /* Cormorant Garamond — display / book titles */
@@ -40,6 +47,13 @@ body {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+/* Row actions — always visible on touch devices, hover-reveal on pointer devices */
+.row-action { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .row-action { opacity: 0; }
+  .group:hover .row-action { opacity: 1; }
 }
 
 /* Thin scrollbars for sidebar */

@@ -44,7 +44,7 @@ async function searchGoogleBooks(query: string): Promise<BookSuggestion[]> {
 }
 
 async function searchOpenLibrary(query: string): Promise<BookSuggestion[]> {
-  const url = `${OL_BASE}?title=${encodeURIComponent(query)}&limit=8&fields=title,author_name,isbn,number_of_pages_median,cover_i`;
+  const url = `${OL_BASE}?q=${encodeURIComponent(query)}&limit=8&fields=title,author_name,isbn,number_of_pages_median,cover_i`;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Open Library API error: ${res.status}`);
   const data = await res.json();
@@ -54,9 +54,16 @@ async function searchOpenLibrary(query: string): Promise<BookSuggestion[]> {
 
 export async function searchBooks(query: string): Promise<BookSuggestion[]> {
   if (!query.trim()) return [];
-  try {
-    return await searchGoogleBooks(query);
-  } catch {
-    return await searchOpenLibrary(query);
-  }
+
+  // Race both providers in parallel — whichever returns useful results first wins.
+  // This is resilient to Vercel-hosted referer blocks on Google Books, and to
+  // Open Library being slow / down.
+  const google = searchGoogleBooks(query).catch(() => [] as BookSuggestion[]);
+  const openLib = searchOpenLibrary(query).catch(() => [] as BookSuggestion[]);
+
+  const googleResults = await google;
+  if (googleResults.length > 0) return googleResults;
+
+  const olResults = await openLib;
+  return olResults;
 }

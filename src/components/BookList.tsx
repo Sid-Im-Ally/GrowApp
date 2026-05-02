@@ -102,17 +102,19 @@ export function BookList({ books, onStartReading, onDeleteBook }: Props) {
                     <>
                       <button
                         onClick={() => onStartReading(book)}
-                        className="opacity-0 group-hover:opacity-100 font-mono-grow text-[8px] px-2 py-1 rounded-full transition-all"
+                        className="row-action font-mono-grow text-[8px] px-2 py-1 rounded-full transition-all"
                         style={{ background: 'rgba(200,169,106,0.15)', color: 'var(--sun)' }}
                         title="Start reading"
+                        aria-label={`Start reading ${book.title}`}
                       >
                         Read →
                       </button>
                       <button
                         onClick={() => setConfirmId(book.id)}
-                        className="opacity-0 group-hover:opacity-100 p-1 rounded transition-all"
+                        className="row-action p-1 rounded transition-all"
                         style={{ color: 'rgba(122,116,104,0.5)' }}
                         title="Remove"
+                        aria-label={`Remove ${book.title}`}
                       >
                         <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />

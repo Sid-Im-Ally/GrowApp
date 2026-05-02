@@ -114,7 +114,7 @@ export function CompletedBooksDrawer({ books, onClose, onMoveToReading }: Props)
                   </div>
                   <button
                     onClick={() => onMoveToReading(book)}
-                    className="opacity-0 group-hover:opacity-100 font-mono-grow text-[8px] px-3 py-1.5 rounded-full transition-all"
+                    className="row-action font-mono-grow text-[8px] px-3 py-1.5 rounded-full transition-all"
                     style={{ border: '1px solid var(--line)', color: 'var(--muted)' }}
                     onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--sun)'; e.currentTarget.style.color = 'var(--sun)'; }}
                     onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.color = 'var(--muted)'; }}
