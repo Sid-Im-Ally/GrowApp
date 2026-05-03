@@ -15,6 +15,9 @@
   --sun-soft:  #e7d8a8;
   --sage:      #6b7a5a;
   --clay:      #9a6e4e;
+  --ember:     #e08a3c;
+  --ember-hot: #ffb45a;
+  --ash:       #a89e8a;
 }
 
 * { box-sizing: border-box; }
@@ -65,4 +68,101 @@ input, select, textarea { font-size: 16px; }
 .scrollbar-thin::-webkit-scrollbar-thumb {
   background: rgba(255,255,255,0.08);
   border-radius: 4px;
+}
+
+/* ── Burning timeline (adapted from Grow Calendar reference) ──
+   Position controlled by --spineX (defaults to center) and --burnPct (y of "now"). */
+.timeline-spine {
+  position: absolute; left: var(--spineX, 50%); top: 0; bottom: 0;
+  width: 1px; transform: translateX(-50%);
+  background: var(--line);
+}
+.timeline-burnt {
+  position: absolute; left: var(--spineX, 50%); top: 0; width: 2px;
+  height: var(--burnPct); transform: translateX(-50%);
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+    rgba(168,158,138,0) 0%,
+    rgba(168,158,138,0.55) 30%,
+    rgba(155,120,90,0.7) 70%,
+    rgba(224,138,60,0.95) 100%);
+  filter: blur(0.3px);
+}
+.ember {
+  position: absolute; left: var(--spineX, 50%); top: var(--burnPct);
+  transform: translate(-50%, -50%);
+  width: 10px; height: 10px; border-radius: 50%;
+  background: radial-gradient(circle, #ffd28a 0%, var(--ember-hot) 35%, var(--ember) 60%, rgba(224,138,60,0) 80%);
+  box-shadow:
+    0 0 6px rgba(255,180,90,0.9),
+    0 0 14px rgba(224,138,60,0.55),
+    0 0 28px rgba(224,138,60,0.3);
+  animation: ember-pulse 1.6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+.ember::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 24px; height: 24px; border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255,180,90,0.35) 0%, rgba(224,138,60,0) 70%);
+  animation: ember-halo 2.4s ease-in-out infinite;
+}
+@keyframes ember-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1);    opacity: 1; }
+  50%      { transform: translate(-50%, -50%) scale(1.18); opacity: 0.92; }
+}
+@keyframes ember-halo {
+  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.85); }
+  50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.25); }
+}
+
+.spark {
+  position: absolute; left: var(--spineX, 50%); top: var(--burnPct);
+  width: 2px; height: 2px; border-radius: 50%;
+  background: #ffcf86;
+  box-shadow: 0 0 4px rgba(255,180,90,0.9);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 2;
+}
+.spark.s1 { animation: spark-rise  2.4s ease-out infinite; animation-delay: 0s;   }
+.spark.s2 { animation: spark-rise2 2.8s ease-out infinite; animation-delay: 0.6s; }
+.spark.s3 { animation: spark-rise3 3.2s ease-out infinite; animation-delay: 1.2s; }
+.spark.s4 { animation: spark-rise  2.6s ease-out infinite; animation-delay: 1.8s; }
+.spark.s5 { animation: spark-rise2 3.0s ease-out infinite; animation-delay: 0.3s; }
+@keyframes spark-rise  {
+  0%   { transform: translate(-50%, 0) scale(1);   opacity: 0; }
+  20%  { opacity: 1; }
+  100% { transform: translate(calc(-50% + 6px), -38px) scale(0.4); opacity: 0; }
+}
+@keyframes spark-rise2 {
+  0%   { transform: translate(-50%, 0) scale(1);   opacity: 0; }
+  25%  { opacity: 0.9; }
+  100% { transform: translate(calc(-50% - 8px), -46px) scale(0.3); opacity: 0; }
+}
+@keyframes spark-rise3 {
+  0%   { transform: translate(-50%, 0) scale(1);   opacity: 0; }
+  20%  { opacity: 1; }
+  100% { transform: translate(calc(-50% + 2px), -54px) scale(0.35); opacity: 0; }
+}
+
+.ash-fleck {
+  position: absolute; left: var(--spineX, 50%);
+  width: 1.5px; height: 1.5px; border-radius: 50%;
+  background: rgba(120,108,90,0.55);
+  pointer-events: none;
+  opacity: 0;
+}
+.ash-fleck.a1 { top: calc(var(--burnPct) - 30px); animation: ash-drift 5s   ease-in-out infinite; animation-delay: 0s;   }
+.ash-fleck.a2 { top: calc(var(--burnPct) - 60px); animation: ash-drift 6s   ease-in-out infinite; animation-delay: 1.5s; }
+.ash-fleck.a3 { top: calc(var(--burnPct) - 90px); animation: ash-drift 5.5s ease-in-out infinite; animation-delay: 3s;   }
+@keyframes ash-drift {
+  0%   { transform: translate(-50%, 0); opacity: 0; }
+  20%  { opacity: 0.7; }
+  100% { transform: translate(calc(-50% + 14px), -28px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ember, .ember::after, .spark, .ash-fleck { animation: none; }
 }

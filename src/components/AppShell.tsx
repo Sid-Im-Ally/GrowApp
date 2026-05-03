@@ -5,6 +5,7 @@ import { BookCard } from './BookCard';
 import { BookSearch } from './BookSearch';
 import { CompletedBooksDrawer } from './CompletedBooksDrawer';
 import { EmptyState } from './EmptyState';
+import { TrackingScreen } from './TrackingScreen';
 import { exportToJSON, importFromJSON } from '../utils/exportImport';
 
 interface Props {
@@ -54,6 +55,7 @@ export function AppShell({
   const [addingBook, setAddingBook] = useState<BookSuggestion | null>(null);
   const [manualPages, setManualPages] = useState('');
   const [importError, setImportError] = useState('');
+  const [trackingBookId, setTrackingBookId] = useState<string | null>(null);
   const importInputRef = useRef<HTMLInputElement>(null);
 
   const readingBooks = books.filter((b) => b.status === 'reading');
@@ -370,6 +372,7 @@ export function AppShell({
                     onAddNote={onAddNote}
                     onUpdateNote={onUpdateNote}
                     onDeleteNote={onDeleteNote}
+                    onTrack={(b) => setTrackingBookId(b.id)}
                   />
                 ))}
               </div>
@@ -385,6 +388,18 @@ export function AppShell({
           onMoveToReading={handleMoveToReading}
         />
       )}
+
+      {trackingBookId && (() => {
+        const trackingBook = books.find((b) => b.id === trackingBookId);
+        if (!trackingBook) return null;
+        return (
+          <TrackingScreen
+            book={trackingBook}
+            onClose={() => setTrackingBookId(null)}
+            onUpdateBook={onUpdateBook}
+          />
+        );
+      })()}
     </div>
   );
 }

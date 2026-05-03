@@ -18,6 +18,29 @@ export interface Book {
   updatedAt: string;
   completedAt?: string;
   isbn?: string;
+  readingGoal?: ReadingGoal;
+}
+
+export type GoalMode = 'finish_by_date' | 'pages_per_week';
+
+export interface ReadingSession {
+  id: string;
+  startedAt: string;
+  date: string;
+  minutesAvailable: number;
+  startPage: number;
+  endPage: number;
+  actualEndPage: number;
+  completed: boolean;
+}
+
+export interface ReadingGoal {
+  mode: GoalMode;
+  targetDate?: string;
+  weeklyTargetPages?: number;
+  pagesPerMinute: number;
+  startedAt: string;
+  sessions: ReadingSession[];
 }
 
 export interface BookSuggestion {

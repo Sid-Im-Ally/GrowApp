@@ -10,9 +10,10 @@ interface Props {
   onAddNote: (bookId: string, note: Note) => void;
   onUpdateNote: (bookId: string, note: Note) => void;
   onDeleteNote: (bookId: string, noteId: string) => void;
+  onTrack: (book: Book) => void;
 }
 
-export function BookCard({ book, onUpdate, onDelete, onAddNote, onUpdateNote, onDeleteNote }: Props) {
+export function BookCard({ book, onUpdate, onDelete, onAddNote, onUpdateNote, onDeleteNote, onTrack }: Props) {
   const [notesOpen, setNotesOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [imgError, setImgError] = useState(false);
@@ -131,6 +132,25 @@ export function BookCard({ book, onUpdate, onDelete, onAddNote, onUpdateNote, on
             Mark complete
           </button>
         )}
+
+        {/* Track — opens reading timetable */}
+        <button
+          onClick={() => onTrack(book)}
+          className="flex items-center gap-1.5 text-xs font-medium px-3 py-2 rounded-full transition-colors"
+          style={{
+            background: 'rgba(224,138,60,0.1)',
+            color: 'var(--ember)',
+            border: '1px solid rgba(224,138,60,0.3)',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--ember)'; e.currentTarget.style.color = 'var(--paper)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(224,138,60,0.1)'; e.currentTarget.style.color = 'var(--ember)'; }}
+          title="Open reading timetable"
+        >
+          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l2.5 2.5M12 21a9 9 0 110-18 9 9 0 010 18z" />
+          </svg>
+          <span>Track</span>
+        </button>
 
         {/* Notes toggle */}
         <button
