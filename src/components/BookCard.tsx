@@ -107,36 +107,38 @@ export function BookCard({ book, onUpdate, onDelete, onAddNote, onUpdateNote, on
         </div>
       </div>
 
-      {/* Actions row */}
+      {/* Actions row — three equal-width pills + a trailing remove icon */}
       <div
-        className="px-4 py-3 flex items-center gap-2"
+        className="px-3 sm:px-4 py-3 flex items-center gap-1.5"
         style={{ borderTop: '1px solid var(--line-soft)' }}
       >
-        {/* Mark Completed — sun style when done, ghost otherwise */}
-        {isFinished ? (
-          <button
-            onClick={handleComplete}
-            className="flex-1 text-xs font-medium px-4 py-2 rounded-full transition-colors"
-            style={{ background: 'var(--sun)', color: 'var(--ink)', border: '1px solid var(--sun)' }}
-          >
-            Mark complete →
-          </button>
-        ) : (
-          <button
-            onClick={handleComplete}
-            className="flex-1 text-xs font-medium px-4 py-2 rounded-full transition-colors"
-            style={{ background: 'transparent', color: 'var(--muted)', border: '1px solid var(--line)' }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--ink)'; e.currentTarget.style.color = 'var(--ink)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.color = 'var(--muted)'; }}
-          >
-            Mark complete
-          </button>
-        )}
+        {/* Mark Completed */}
+        <button
+          onClick={handleComplete}
+          className="flex-1 min-w-0 text-xs font-medium px-2 py-2 rounded-full transition-colors truncate"
+          style={
+            isFinished
+              ? { background: 'var(--sun)', color: 'var(--ink)', border: '1px solid var(--sun)' }
+              : { background: 'transparent', color: 'var(--muted)', border: '1px solid var(--line)' }
+          }
+          onMouseEnter={(e) => {
+            if (isFinished) return;
+            e.currentTarget.style.borderColor = 'var(--ink)';
+            e.currentTarget.style.color = 'var(--ink)';
+          }}
+          onMouseLeave={(e) => {
+            if (isFinished) return;
+            e.currentTarget.style.borderColor = 'var(--line)';
+            e.currentTarget.style.color = 'var(--muted)';
+          }}
+        >
+          {isFinished ? 'Done →' : 'Complete'}
+        </button>
 
         {/* Track — opens reading timetable */}
         <button
           onClick={() => onTrack(book)}
-          className="flex items-center gap-1.5 text-xs font-medium px-3 py-2 rounded-full transition-colors"
+          className="flex-1 min-w-0 flex items-center justify-center gap-1.5 text-xs font-medium px-2 py-2 rounded-full transition-colors"
           style={{
             background: 'rgba(224,138,60,0.1)',
             color: 'var(--ember)',
@@ -146,35 +148,31 @@ export function BookCard({ book, onUpdate, onDelete, onAddNote, onUpdateNote, on
           onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(224,138,60,0.1)'; e.currentTarget.style.color = 'var(--ember)'; }}
           title="Open reading timetable"
         >
-          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+          <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l2.5 2.5M12 21a9 9 0 110-18 9 9 0 010 18z" />
           </svg>
-          <span>Track</span>
+          <span className="truncate">Track</span>
         </button>
 
         {/* Notes toggle */}
         <button
           onClick={() => setNotesOpen((o) => !o)}
-          className="flex items-center gap-1.5 text-xs font-medium px-3 py-2 rounded-full transition-colors"
+          className="flex-1 min-w-0 flex items-center justify-center gap-1.5 text-xs font-medium px-2 py-2 rounded-full transition-colors"
           style={{
             background: notesOpen ? 'var(--ink)' : 'transparent',
             color: notesOpen ? 'var(--paper)' : 'var(--muted)',
             border: `1px solid ${notesOpen ? 'var(--ink)' : 'var(--line)'}`,
           }}
         >
-          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+          <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
           </svg>
-          {book.notes.length > 0 ? (
-            <span>{book.notes.length}</span>
-          ) : (
-            <span>Notes</span>
-          )}
+          <span className="truncate">{book.notes.length > 0 ? book.notes.length : 'Notes'}</span>
         </button>
 
-        {/* Delete */}
+        {/* Delete (icon, fixed width) */}
         {confirmDelete ? (
-          <div className="flex gap-1 items-center">
+          <div className="flex gap-1 items-center shrink-0">
             <button
               onClick={() => onDelete(book.id)}
               className="font-mono-grow text-[8px] px-2 py-1.5 rounded-full"
@@ -193,11 +191,12 @@ export function BookCard({ book, onUpdate, onDelete, onAddNote, onUpdateNote, on
         ) : (
           <button
             onClick={() => setConfirmDelete(true)}
-            className="p-2 rounded-full transition-colors"
+            className="p-2 rounded-full transition-colors shrink-0"
             style={{ color: 'var(--line)' }}
             onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--clay)')}
             onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--line)')}
             title="Remove"
+            aria-label="Remove book"
           >
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />

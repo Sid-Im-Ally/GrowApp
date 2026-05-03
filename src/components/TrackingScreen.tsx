@@ -143,7 +143,7 @@ export function TrackingScreen({ book, onClose, onUpdateBook }: Props) {
       >
         {/* Header */}
         <div
-          className="px-5 py-4 flex items-center gap-3 shrink-0"
+          className="px-4 sm:px-5 py-3 sm:py-4 flex items-center gap-3 shrink-0"
           style={{ borderBottom: '1px solid var(--line-soft)' }}
         >
           <img
@@ -177,7 +177,7 @@ export function TrackingScreen({ book, onClose, onUpdateBook }: Props) {
         </div>
 
         {/* Body */}
-        <div className="overflow-y-auto flex-1 px-5 py-5 space-y-6" style={{ paddingBottom: 'max(1.25rem, env(safe-area-inset-bottom))' }}>
+        <div className="overflow-y-auto flex-1 px-4 sm:px-5 py-4 sm:py-5 space-y-5" style={{ paddingBottom: 'max(1.25rem, env(safe-area-inset-bottom))' }}>
           {/* Toast */}
           {toast && (
             <div
